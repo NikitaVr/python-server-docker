@@ -5,18 +5,21 @@ import pymongo
 import json
 from bson import ObjectId
 
+
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
         if isinstance(o, ObjectId):
             return str(o)
         return json.JSONEncoder.default(self, o)
 
+
 app = Flask(__name__)
 CORS(app)
 
 animals = ["cat", "dog"]
 
-client = pymongo.MongoClient("mongodb+srv://<USER>:<PASSWORD>@cluster0-mvqxw.mongodb.net/test?retryWrites=true&w=majority")
+client = pymongo.MongoClient(
+    "mongodb+srv://<USER>:<PASSWORD>@cluster0-mvqxw.mongodb.net/test?retryWrites=true&w=majority")
 db = client.Zoo
 
 
@@ -41,6 +44,7 @@ def showUser(username):
     # show the user profile for that user
     return 'User %s' % username
 
+
 @app.route('/animals/all')
 def getAllAnimals():
     allAnimals = list(db.Animals.find({}))
@@ -49,4 +53,4 @@ def getAllAnimals():
 
 if __name__ == "__main__":
     # Only for debugging while developing
-    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 80))
+    app.run(host='0.0.0.0', debug=True, port=os.environ.get('PORT', 3000))

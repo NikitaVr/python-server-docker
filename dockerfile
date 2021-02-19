@@ -8,4 +8,6 @@ COPY ./app /app
 
 ENTRYPOINT [ "python" ]
 
+EXPOSE 3000
+
 CMD [ "./app/main.py" ]
